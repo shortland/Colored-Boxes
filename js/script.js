@@ -17,7 +17,7 @@
 // purpose of Better Colors is to create nicer brighter colors through HSL then converting them to rgb format.
 
 $(window).ready(function() {
-    var max_per_line = 40;
+    var max_per_line = 41;
     var max = max_per_line * ($(window).height()/($(window).width()/max_per_line));
     max = Math.floor(max);
     var rem = max % max_per_line;
@@ -43,10 +43,21 @@ $(window).ready(function() {
         num++;
         
         if(num == maxy) {
-            return;
+            (function switchz() {
+                var rgbColor = randColor();
+                var t = Math.floor(Math.random() * maxy);
+                $("#newItem_" + t).animate({"background-color" : "rgb(" + rgbColor + ")"}, 100);
+                setTimeout(switchz, 0);
+            })();
         }
-
-        setTimeout(function(){beginContentWriter(num, maxy);}, 0);
+        else {
+            (function switchx() {
+                var rgbColor = randColor();
+                var t = Math.floor(Math.random() * maxy);
+                $("#newItem_" + t).animate({"background-color" : "rgb(" + rgbColor + ")"}, 100);
+            })();
+            setTimeout(function(){beginContentWriter(num, maxy);}, 0);
+        }
     }
 
     function randColor() {
@@ -55,7 +66,7 @@ $(window).ready(function() {
         var h = Math.random(); // use random start value
         h += golden_ratio_conjugate;
         h %= 1;
-        return HSVtoRGB(h, 0.5, 0.95);
+        return HSVtoRGB(h, 0.35, 0.995);
     }
 
     function HSVtoRGB(h, s, v) {
